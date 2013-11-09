@@ -8,13 +8,17 @@ Run: "Set-ExecutionPolicy unrestricted" and hit "Y" when prompted.
 
 Once the above is done, you never need to do it again for that system.
 
+<<<<<<< HEAD
 If you do NOT want to change your execution policy globally, you can run the script using:
 
     powershell.exe -ExecutionPolicy Bypass -File Launch.ps1
+=======
+GitHub Download: [PowerLaunch v1] [1]
+>>>>>>> 667cf91d19092d38632b9882d314d267be46ba46
 
 <dl>
-  <dt>If using GitHub release</dt>
-  <dd>[Unzip] [1] to a folder of your choice.</dd>
+  <dt>If using GitHub Download</dt>
+  <dd>Unzip to a folder of your choice.</dd>
   <dd>Run launch.ps1 to generate config files.</dd>
   <dd>Stop the server.  Upon relaunch of the server, the new values will be picked up.</dd>
   <dd></dd>
@@ -24,7 +28,7 @@ If you do NOT want to change your execution policy globally, you can run the scr
   <dd>Stop the server.  Upon relaunch of the server or script, the new values will be picked up.</dd>
 </dl>
 
-[1]: https://github.com/TnTBass/PowerLaunch/releases/download/v1.0/PowerLaunch.zip "PowerLaunch v1"
+  [1]: https://github.com/TnTBass/PowerLaunch/releases/download/v1.0/PowerLaunch.zip        "PowerLaunch v1"
 
 Configuration File (defaults)
 ------------------
