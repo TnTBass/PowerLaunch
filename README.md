@@ -16,5 +16,5 @@ Long Term Goals
 * Allow for a backup to run periodically, not just when the server stops.  
 * Allow auto relaunch of server to be disabled.
 
-> Long term goals dependent on whether these features are desired or not.
+Note: Long term goals dependent on whether these features are desired or not.
 
