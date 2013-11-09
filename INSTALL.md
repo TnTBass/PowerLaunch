@@ -22,20 +22,21 @@ Once the above is done, you never need to do it again for that system.
 
 Configuration File (defaults)
 ------------------
-SERVER_NAME=MyServer  
-SERVER_LOCATION=  
-BACKUP_LOCATION=  
-CRAFTBUKKIT=craftbukkit.jar  
-JAVA_FLAGS=-Xmx1G  
-CRAFTBUKKIT_OPTIONS=-o true -p 25565  
-TEST_DEPENDENCIES=true  
-DELETE_LOG=true  
-TAKE_BACKUP=True  
-RESTART_PAUSE=5  
+    SERVER_NAME=MyServer  
+    SERVER_LOCATION=  
+    BACKUP_LOCATION=  
+    CRAFTBUKKIT=craftbukkit.jar  
+    JAVA_FLAGS=-Xmx1G  
+    CRAFTBUKKIT_OPTIONS=-o true -p 25565  
+    TEST_DEPENDENCIES=true  
+    DELETE_LOG=true  
+    TAKE_BACKUP=True  
+    RESTART_PAUSE=5  
 
 Configuration File (explanation)
 --------------------------------
-SERVER_NAME - The name of the server.  Used in Backups.  Can be empty.  
+The name of the server.  Used in Backups.  Can be empty.  
+    SERVER_NAME
 SERVER_LOCATION - The folder for the server.  This can be set to enable the launch.ps1 to be located anywhere on the system.  Cannot be empty.  
 BACKUP_LOCATION - The folder where backups are placed.  Can be empty if TAKE_BACKUP is set to false.  
 CRAFTBUKKIT - The server jar file.  If you name your server cb.jar, modify this to reflect the same name.  Cannot be empty.  
