@@ -35,32 +35,42 @@ Configuration File (defaults)
 
 Configuration File (explanation)
 --------------------------------
-The name of the server.  Used in Backups.  Can be empty.  
+The name of the server.  Used in Backups.  Can be empty. 
+ 
     SERVER_NAME
     
 The folder for the server.  This can be set to enable the launch.ps1 to be located anywhere on the system.  Cannot be empty.  
+
     SERVER_LOCATION
     
 The folder where backups are placed.  Can be empty if TAKE_BACKUP is set to false.  
+
     BACKUP_LOCATION
     
 The server jar file.  If you name your server cb.jar, modify this to reflect the same name.  Cannot be empty.  
+
     CRAFTBUKKIT
 
 Set the min/max/initial heap size here. This can also be used to set other java flags (such as garbage collection).  
+
     JAVA_FLAGS
 
 Set the command line options to use to launch the server.  Can be empty.  
+
     CRAFTBUKKIT_OPTIONS
     
 Checks to ensure .NET 4.5 and PowerShell 3 are installed.  If not, it will provide download links.  
+
     TEST_DEPENDENCIES
 
 Allows the script to delete the server.log file if backup is enabled.  
+
     DELETE_LOG
 
 Enables the script to take a backup of the server upon shutting down the server.  
+
     TAKE_BACKUP
 
 How long to wait before automatically relaunching the server when stopped.  
+
     RESTART_PAUSE
