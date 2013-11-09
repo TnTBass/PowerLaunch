@@ -8,13 +8,9 @@ Run: "Set-ExecutionPolicy unrestricted" and hit "Y" when prompted.
 
 Once the above is done, you never need to do it again for that system.
 
-<<<<<<< HEAD
 If you do NOT want to change your execution policy globally, you can run the script using:
 
     powershell.exe -ExecutionPolicy Bypass -File Launch.ps1
-=======
-GitHub Download: [PowerLaunch v1] [1]
->>>>>>> 667cf91d19092d38632b9882d314d267be46ba46
 
 <dl>
   <dt>If using GitHub Download</dt>
