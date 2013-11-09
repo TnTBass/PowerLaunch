@@ -1,8 +1,13 @@
 How to Install
 --------------
 One time only
-Start Powershell as administrator
-Run: "Set-ExecutionPolicy unrestricted" and hit "Y" when prompted.
+Start Powershell as administrator  
+Run: 
+    
+    Set-ExecutionPolicy unrestricted
+    
+Hit "Y" when prompted.  
+
 * PowerShell by default expects signed scripts only.  Setting this to unrestricted allows unsigned scripts to run.
 * While I would love to publicly sign this script, a 2 year certificate comes at a $550 cost (at least).  
 
