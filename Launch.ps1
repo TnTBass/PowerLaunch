@@ -1,5 +1,5 @@
 #Script courtesy of TnT
-#Version 1.0
+#Version 1.0.1
 #This script will launch your server and zip up your server directory into a folder of your choice upon the server stopping.
 #No warranty is provided whatsoever.  Learn this script and what it does before using it.
 
@@ -144,7 +144,6 @@ Function Launch-Server([string]$location, [string]$jarfile, [array]$flags, [arra
     
     Write-Host "Bukkit Servers are Fun!"
     Set-Location $location
-    write-host $flags
     java $flags -jar $server $options
     Set-Location $runlocation
 }
