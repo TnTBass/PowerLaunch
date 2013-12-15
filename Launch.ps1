@@ -1,5 +1,5 @@
 #Script courtesy of TnT
-#Version 1.0.1
+#Version 1.0.2
 #This script will launch your server and zip up your server directory into a folder of your choice upon the server stopping.
 #No warranty is provided whatsoever.  Learn this script and what it does before using it.
 
@@ -9,6 +9,9 @@ New-Variable -Name POWERSHELL_VERSION -Option Constant -Value ([int]3)
 #Set the minimum .NET Framework version this script works with. (DO NOT CHANGE).
 New-Variable -Name FRAMEWORK_VERSION -Option Constant -Value ([decimal]4.5)
 
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#   BEGIN POWERSHELL CUSTOMIZATION   #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+$Host.UI.RawUI.WindowTitle = "PowerLaunch"
+
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#   BEGIN FUNCTION DECLARATION   #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 
 #Function to create the config.txt file.  If the file exists, it will not be overwrote.
@@ -16,15 +19,16 @@ Function Create-Config() {
     If (!(Test-Path config.txt)) {
         $currentlocation=Get-Location
         $parentfolder=(get-item $currentlocation).parent.FullName
+        $backupfolder = Join-Path -path $parentfolder -childpath backup
         New-Item config.txt -ItemType "file"
         Add-Content config.txt "SERVER_NAME=MyServer"
         Add-Content config.txt "SERVER_LOCATION=$currentlocation"
-        Add-Content config.txt "BACKUP_LOCATION=$parentfolder\backup"
+        Add-Content config.txt "BACKUP_LOCATION=$backupfolder"
         Add-Content config.txt "CRAFTBUKKIT=craftbukkit.jar"
         Add-Content config.txt "JAVA_FLAGS=-Xmx1G"
         Add-Content config.txt "CRAFTBUKKIT_OPTIONS=-o True -p 25565"
         Add-Content config.txt "TEST_DEPENDENCIES=True"
-        Add-Content config.txt "DELETE_LOG=True"
+        Add-Content config.txt "DELETE_LOG=False"
         Add-Content config.txt "TAKE_BACKUP=True"
         Add-Content config.txt "RESTART_PAUSE=5"
     }
@@ -142,15 +146,21 @@ Function Launch-Server([string]$location, [string]$jarfile, [array]$flags, [arra
         Write-Host -foreground Red "$server not found.  Aborting."
     }
     
-    Write-Host "Bukkit Servers are Fun!"
+    Write-Host "PowerLaunch - Premium CraftBukkit Start Script"
     Set-Location $location
     java $flags -jar $server $options
     Set-Location $runlocation
 }
 
+#Function to find the size of the server directory
+Function Get-DirectorySize() {
+  param ([string]$root = $(Resolve-Path .))
+  Get-ChildItem -re $root | ?{ -not $_.PSIsContainer } | Measure-Object -sum -property Length
+}
+
 #Function to backup the contents of a directory.
 #This will break If not using .NET 4.5 or above
-Function Write-Backup([string]$backup, [string]$name, [string]$server) {
+Function Write-Backup([string]$backup, [string]$name, [string]$server, [int]$delay, [decimal]$size) {
     $date = get-date -UFormat %Y-%m-%d-%H-%M
     If (($backup -eq "") -or ($backup -eq $NULL)) {
         Write-Host ""
@@ -188,7 +198,16 @@ Function Write-Backup([string]$backup, [string]$name, [string]$server) {
         Write-Host -foreground Red "Backup Aborted.  $backupFile already exists."
         Return
     }
-    
+    Write-Host ""
+    Write-Host -background Red "Press q to abort backup - you have $delay seconds to decide"
+    Start-Sleep -s $delay
+
+    If ($Host.UI.RawUI.KeyAvailable -and ("q" -eq $Host.UI.RawUI.ReadKey("IncludeKeyUp,NoEcho").Character)) {
+        Write-Host -foreground Red "Key pressed. Aborting Backup."
+        Return
+    }
+    Write-Host -foreground Green "Backup starting.  For large server directories, this may take a while."
+    Write-Host -foreground Green "Size to be backed up: $size GB. Hold please."
     #Dump the output to null to avoid spamming the console.  Backups will still run without issue
     [Reflection.Assembly]::LoadWithPartialName("System.IO.Compression.FileSystem") > $NULL
     $compressionLevel = [System.IO.Compression.CompressionLevel]::Optimal
@@ -200,7 +219,7 @@ Function Write-Backup([string]$backup, [string]$name, [string]$server) {
 #Function to quit the auto relaunch based on a time set.
 Function Set-Quit([int]$delay) {
     Write-Host ""
-    Write-Host -background Red "Press q to quit - you have $RESTART_PAUSE seconds to decide"
+    Write-Host -background Red "Press q to quit - you have $delay seconds to decide"
     Start-Sleep -s $delay
 
     If ($Host.UI.RawUI.KeyAvailable -and ("q" -eq $Host.UI.RawUI.ReadKey("IncludeKeyUp,NoEcho").Character)) {
@@ -238,9 +257,11 @@ Do {
     Launch-Server $HT.SERVER_LOCATION $HT.CRAFTBUKKIT $HT.JAVA_FLAGS $HT.CRAFTBUKKIT_OPTIONS
     
     If ($HT.TAKE_BACKUP) {
-        Write-Backup $HT.BACKUP_LOCATION $HT.SERVER_NAME $HT.SERVER_LOCATION
+        $foldersize = (Get-DirectorySize $HT.SERVER_LOCATION).Sum/1gb
+        $roundedsize = [math]::Round($foldersize,2)
+        Write-Backup $HT.BACKUP_LOCATION $HT.SERVER_NAME $HT.SERVER_LOCATION $HT.RESTART_PAUSE $roundedsize
         If ($HT.DELETE_LOG) {
-            $log = Join-Path -path $HT.SERVER_LOCATION -childpath "server.log"
+            $log = Join-Path -path $HT.SERVER_LOCATION -childpath "logs\latest.log"
             If (Test-Path $log) {
                 Remove-Item $log
             }
