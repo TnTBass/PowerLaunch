@@ -1,5 +1,5 @@
 #Script courtesy of TnT
-#Version 1.0.2
+#Version 1.0.3
 #This script will launch your server and zip up your server directory into a folder of your choice upon the server stopping.
 #No warranty is provided whatsoever.  Learn this script and what it does before using it.
 
@@ -8,9 +8,11 @@
 New-Variable -Name POWERSHELL_VERSION -Option Constant -Value ([int]3)
 #Set the minimum .NET Framework version this script works with. (DO NOT CHANGE).
 New-Variable -Name FRAMEWORK_VERSION -Option Constant -Value ([decimal]4.5)
+#Set the version number of this script. (DO NOT CHANGE)
+New-Variable -Name SCRIPT_VERSION -Option Constant -Value ([string]"1.0.3")
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#   BEGIN POWERSHELL CUSTOMIZATION   #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
-$Host.UI.RawUI.WindowTitle = "PowerLaunch"
+$Host.UI.RawUI.WindowTitle = "PowerLaunch v$SCRIPT_VERSION"
 
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#   BEGIN FUNCTION DECLARATION   #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 
